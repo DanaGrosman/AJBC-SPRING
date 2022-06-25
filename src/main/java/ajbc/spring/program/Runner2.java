@@ -11,14 +11,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import ajbc.spring.models.Category;
+import ajbc.spring.models.Product;
 import ajcb.spring.config.AppConfig;
+import ajcb.spring.dao.DaoException;
+import ajcb.spring.dao.JdbcProductDao;
 import ajcb.spring.dao.ProductDao;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 
 public class Runner2 {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DaoException {
 
 		Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 		root.setLevel(Level.ERROR);
@@ -51,13 +54,31 @@ public class Runner2 {
 //		printAllShippers(template);
 //		printAllShippersNames(template);
 //		printCategoryById(template, rowMapper, 5);
-		printAllCategiries(template, rowMapper);
+//		printAllCategiries(template, rowMapper);
+
+		JdbcProductDao jdbcProductDao = context.getBean(JdbcProductDao.class);
+//		Product product = new Product();
+//		product.setCategoryId(5);
+//		product.setDiscontinued(0);
+//		product.setSupplierId(2);
+//		product.setProductName("Milk");
+//		product.setQuantityPerUnit("5");
+//		product.setReorderLevel(4);
+//		product.setUnitPrice(20.4);
+//		product.setUnitsInStock(10);
+//		product.setUnitsOnOrder(2);
+//		jdbcProductDao.addProduct(product);
+//		product.setProductName("Bamba");
+//		product.setProductId(78);
+//		jdbcProductDao.updateProduct(product);
+//		System.out.println(jdbcProductDao.getProduct(79));
+		jdbcProductDao.deleteProduct(80);
 	}
 
 	private static void printAllCategiries(JdbcTemplate template, RowMapper<Category> rowMapper) {
 		String sql = "select * from categories";
 		List<Category> categories = template.query(sql, rowMapper);
-		categories.forEach(System.out::println);	
+		categories.forEach(System.out::println);
 	}
 
 	private static void printCategoryById(JdbcTemplate template, RowMapper<Category> rowMapper, int id) {
